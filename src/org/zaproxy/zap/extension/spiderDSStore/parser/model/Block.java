@@ -1,4 +1,6 @@
-package org.zaproxy.zap.extension.spiderDSStore.parser;
+package org.zaproxy.zap.extension.spiderDSStore.parser.model;
+
+import org.zaproxy.zap.extension.spiderDSStore.parser.Allocator;
 
 public class Block{
 

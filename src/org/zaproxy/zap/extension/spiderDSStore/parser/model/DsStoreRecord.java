@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.spiderDSStore.parser;
+package org.zaproxy.zap.extension.spiderDSStore.parser.model;
 
 public class DsStoreRecord {
     /**
@@ -52,7 +52,6 @@ public class DsStoreRecord {
     public void setDsSoreDataType(byte[] dsSoreDataType) {
         this.dsSoreDataType = dsSoreDataType;
     }
-
 
     public static boolean checkRecordIntegrity(DsStoreRecord dsStoreRecord){
         boolean output = true;

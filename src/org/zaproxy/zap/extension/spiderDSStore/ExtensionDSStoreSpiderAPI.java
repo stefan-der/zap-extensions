@@ -30,16 +30,16 @@ import org.zaproxy.zap.extension.api.ApiResponseElement;
 
 import net.sf.json.JSONObject;
 
-public class ExtensionDSStoreSpider  extends ApiImplementor {
+public class ExtensionDSStoreSpiderAPI extends ApiImplementor {
     private static final String PREFIX = ".DS_Store Spider";
 
-    private ExtensionSimpleExample extension;
+    private ExtensionDSStoreSpider extension;
 
     private static final String ACTION_HELLO_WORLD = "helloWorld";
 
-    private static final Logger LOGGER = Logger.getLogger(SimpleExampleAPI.class);
+    private static final Logger LOGGER = Logger.getLogger(ExtensionDSStoreSpiderAPI.class);
 
-    public SimpleExampleAPI(ExtensionSimpleExample extension) {
+    public ExtensionDSStoreSpiderAPI(ExtensionDSStoreSpider extension) {
         this.extension = extension;
         this.addApiAction(new ApiAction(ACTION_HELLO_WORLD));
     }

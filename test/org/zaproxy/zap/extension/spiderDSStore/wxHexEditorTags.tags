@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wxHexEditor_XML_TAG>
+  <filename path="/home/graf8/zapProjects/zap-extensions/test/org/zaproxy/zap/extension/spiderDSStore/wxHexEditorTags.tags">
+    <TAG id="0">
+      <start_offset>0</start_offset>
+      <end_offset>3</end_offset>
+      <tag_text>Magic0</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#ECE56B</note_colour>
+    </TAG>
+    <TAG id="1">
+      <start_offset>4</start_offset>
+      <end_offset>7</end_offset>
+      <tag_text>Magic1</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#6BA3EC</note_colour>
+    </TAG>
+    <TAG id="2">
+      <start_offset>8</start_offset>
+      <end_offset>11</end_offset>
+      <tag_text>Offset1</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#EB6BEC</note_colour>
+    </TAG>
+    <TAG id="3">
+      <start_offset>12</start_offset>
+      <end_offset>15</end_offset>
+      <tag_text>Root Block size</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#77EC6B</note_colour>
+    </TAG>
+    <TAG id="4">
+      <start_offset>16</start_offset>
+      <end_offset>19</end_offset>
+      <tag_text>Offset2</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#EB6BEC</note_colour>
+    </TAG>
+    <TAG id="5">
+      <start_offset>20</start_offset>
+      <end_offset>35</end_offset>
+      <tag_text>Unknown</tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#000000</note_colour>
+    </TAG>
+    <TAG id="6">
+      <start_offset>65</start_offset>
+      <end_offset>71</end_offset>
+      <tag_text></tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#F47AB3</note_colour>
+    </TAG>
+    <TAG id="7">
+      <start_offset>4104</start_offset>
+      <end_offset>4107</end_offset>
+      <tag_text>potentially entry
+</tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#000000</note_colour>
+    </TAG>
+    <TAG id="8">
+      <start_offset>4112</start_offset>
+      <end_offset>4137</end_offset>
+      <tag_text>File Name</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#5D9202</note_colour>
+    </TAG>
+    <TAG id="9">
+      <start_offset>4142</start_offset>
+      <end_offset>4145</end_offset>
+      <tag_text>File Type 0</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="10">
+      <start_offset>4170</start_offset>
+      <end_offset>4197</end_offset>
+      <tag_text>#CBCE97</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="11">
+      <start_offset>4202</start_offset>
+      <end_offset>4205</end_offset>
+      <tag_text>File Type		</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="12">
+      <start_offset>4230</start_offset>
+      <end_offset>4275</end_offset>
+      <tag_text>File Name</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#5D9202</note_colour>
+    </TAG>
+    <TAG id="13">
+      <start_offset>4280</start_offset>
+      <end_offset>4283</end_offset>
+      <tag_text>File Type 1</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="14">
+      <start_offset>4308</start_offset>
+      <end_offset>4353</end_offset>
+      <tag_text>Filename</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#5D9202</note_colour>
+    </TAG>
+    <TAG id="15">
+      <start_offset>4358</start_offset>
+      <end_offset>4361</end_offset>
+      <tag_text>File Type 2</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="16">
+      <start_offset>4553</start_offset>
+      <end_offset>4550</end_offset>
+      <tag_text>File Type 3</tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="17">
+      <start_offset>4668</start_offset>
+      <end_offset>4671</end_offset>
+      <tag_text>File Type 3</tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="18">
+      <start_offset>4749</start_offset>
+      <end_offset>4753</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="19">
+      <start_offset>4813</start_offset>
+      <end_offset>4817</end_offset>
+      <tag_text>Filetype 5</tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="20">
+      <start_offset>4860</start_offset>
+      <end_offset>4863</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="21">
+      <start_offset>4934</start_offset>
+      <end_offset>4930</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="22">
+      <start_offset>4995</start_offset>
+      <end_offset>4992</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="23">
+      <start_offset>5020</start_offset>
+      <end_offset>5035</end_offset>
+      <tag_text>File Name</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#5D9202</note_colour>
+    </TAG>
+    <TAG id="24">
+      <start_offset>5043</start_offset>
+      <end_offset>5040</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="25">
+      <start_offset>5068</start_offset>
+      <end_offset>5091</end_offset>
+      <tag_text>File Name</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#5D9202</note_colour>
+    </TAG>
+    <TAG id="26">
+      <start_offset>5096</start_offset>
+      <end_offset>5099</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="27">
+      <start_offset>5163</start_offset>
+      <end_offset>5160</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="28">
+      <start_offset>5204</start_offset>
+      <end_offset>5207</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="29">
+      <start_offset>5251</start_offset>
+      <end_offset>5248</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="30">
+      <start_offset>5481</start_offset>
+      <end_offset>5478</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="31">
+      <start_offset>5503</start_offset>
+      <end_offset>5506</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="32">
+      <start_offset>5535</start_offset>
+      <end_offset>5538</end_offset>
+      <tag_text>File Type</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#CBCE97</note_colour>
+    </TAG>
+    <TAG id="33">
+      <start_offset>6188</start_offset>
+      <end_offset>6192</end_offset>
+      <tag_text>Filetype</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#6613B6</note_colour>
+    </TAG>
+    <TAG id="34">
+      <start_offset>8196</start_offset>
+      <end_offset>10235</end_offset>
+      <tag_text>Root Block</tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#000000</note_colour>
+    </TAG>
+    <TAG id="35">
+      <start_offset>8196</start_offset>
+      <end_offset>8199</end_offset>
+      <tag_text></tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#35E899</note_colour>
+    </TAG>
+    <TAG id="36">
+      <start_offset>8200</start_offset>
+      <end_offset>8203</end_offset>
+      <tag_text></tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#70AE1D</note_colour>
+    </TAG>
+    <TAG id="37">
+      <start_offset>8204</start_offset>
+      <end_offset>8215</end_offset>
+      <tag_text></tag_text>
+      <font_colour>#FFFFFF</font_colour>
+      <note_colour>#D9DA75</note_colour>
+    </TAG>
+    <TAG id="38">
+      <start_offset>9233</start_offset>
+      <end_offset>9236</end_offset>
+      <tag_text>DSDB</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#E532A0</note_colour>
+    </TAG>
+    <TAG id="39">
+      <start_offset>9237</start_offset>
+      <end_offset>9240</end_offset>
+      <tag_text>TOC Count</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#821257</note_colour>
+    </TAG>
+    <TAG id="40">
+      <start_offset>9241</start_offset>
+      <end_offset>9241</end_offset>
+      <tag_text>TOC Name Length</tag_text>
+      <font_colour>#4A4A4A</font_colour>
+      <note_colour>#6613B6</note_colour>
+    </TAG>
+  </filename>
+</wxHexEditor_XML_TAG>

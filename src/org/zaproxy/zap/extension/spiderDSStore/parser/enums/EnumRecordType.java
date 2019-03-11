@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.spiderDSStore.parser;
+package org.zaproxy.zap.extension.spiderDSStore.parser.enums;
 
 // https://www.mkyong.com/java/java-enum-example/
 
@@ -32,7 +32,7 @@ public enum EnumRecordType {
     lsvp("lsvp"),
     lsvP("lsvP"),
     modD("modD"), // dutc, directories only - modification date
-    moDD("moDD"), // dutc, directories only - modification date
+    moDD("moDD"),
     pBB0("pBB0"), // blob
     pBBk("pBBk"), // blob, something to do with bookmarks
     phyS("phyS"),

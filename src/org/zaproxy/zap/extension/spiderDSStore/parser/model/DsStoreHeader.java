@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.spiderDSStore.parser;
+package org.zaproxy.zap.extension.spiderDSStore.parser.model;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -9,29 +9,28 @@ import org.apache.log4j.Logger;
 
 public class DsStoreHeader {
 
-    // Default Header
+    // Default Header in every .DS_Store File
     // 00 00 00 01                  -> 4 Byte
     private byte[] magic1;
-    private int magic1Bytes = 4;
 
     // Default Header
     // 42 75 64 31                  -> 4 byte (4 Byte Offset)
     private byte[] magic2;
-    private int magic2Bytes = 4;
 
-    // Start Offset
-    // 00 00 02 00                  -> 4 byte
+    // Start Offset for the searching for the TOC in current File
+    // 00 00 02 00                  -> 4 byte -> int Interpretation
     private byte[] offset1;
-    private short offset1Bytes = 4;
 
+    // Root Block Size where the TOC is located
+    //
     private byte[] rootBlockSize;           // 4 byte (12 Byte Offset)
-    private short rootBlockSizeBytes = 4;
 
+    // Should be the same Value as offset 1
+    // 00 00 02 00
     private byte[] offset2;        // 4 byte (16 Byte Offset)
-    private short offset2Bytes = 4;
 
+    // the unknown Block is not yet reverse engineered
     private byte[] unknown1;       // 16 byte (20 Byte Offset
-    private short unknownBytes = 16;
 
     private Logger logger = Logger.getLogger(DsStoreHeader.class);
 

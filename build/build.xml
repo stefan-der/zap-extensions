@@ -405,7 +405,12 @@
 		<build-addon name="savexmlmessage" />
 		<build-selenium-addon />
 		<build-spiderajax-addon />
+		<!-- Customisation -->
+		<build-addon name="spiderDSStore" />
+		<!-- End Customisation -->
 		<build-addon name="websocket" />
+
+
 
 	</target>
 
@@ -482,6 +487,10 @@
 
 	<target name="deploy-directorylistv2_3_lc" description="deploys Directory List v2.3 lower case add-on">
 		<build-deploy-addon name="directorylistv2_3_lc" />
+	</target>
+
+	<target name="deploy-spiderDSStore" description="deploys DSStore spider">
+		<build-deploy-addon name="spiderDSStore" />
 	</target>
 
 	<target name="deploy-frontendscanner" description="Deploys the front-end scanner add-on">
