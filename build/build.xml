@@ -436,6 +436,65 @@
 		</sequential>
 	</macrodef>
 
+
+	<!-- start customisation -->
+	<macrodef name="built-test-addon" description="build and test the specified addon">
+		<attribute name="name" /><!-- AddonName -->
+		<sequential>
+			<antcall target="clean" />
+			<antcall target="compile" />
+			<antcall target="test-addon">
+				<param name="addon_name" value="@{name}" />
+			</antcall>
+			<!-- -->
+		</sequential>
+	</macrodef>
+	<target name="test-addon">
+		<echo message="Copying add-on resources..." />
+		<copy todir="${test.build}">
+			<fileset dir="${src}">
+				<include name="org/zaproxy/zap/extension/*/files/**" />
+				<include name="org/zaproxy/zap/extension/*/resources/**" />
+				<!-- Probably not needed but include (just) the main help files and Messages.properties -->
+				<!-- <exclude name="org/zaproxy/zap/extension/*/resources/help_*/**" />-->
+				<!-- <exclude name="org/zaproxy/zap/extension/*/resources/Messages_*.properties" />-->
+			</fileset>
+			<fileset dir="${test.src}/resources/" />
+		</copy>
+		<!-- Required by core (<= 2.7.0) on Java 9+ -->
+		<touch file="${test.build}/Messages.properties" />
+		<echo message="Running tests..." />
+		<junit printsummary="yes" haltonerror="true" failureproperty="TestsFailed">
+			<classpath>
+				<pathelement location="${test.build}"/>
+				<pathelement location="${build}"/>
+				<fileset dir="${dist.lib.dir}">
+					<include name="*.jar" />
+					<include name="*.zap" />
+				</fileset>
+				<fileset dir="${test.lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<formatter type="plain"/>
+			<formatter type="xml"/>
+			<batchtest fork="yes" todir="${test.results.dir}">
+				<fileset dir="${test.build}/org/zaproxy/zap/extension/${addon_name}">
+					<include name="**/*UnitTest.class"/>
+					<include name="**/VerifyScriptTemplates.class"/>
+					<exclude name="**/Abstract*Test.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<fail if="TestsFailed" message="Test(s) failed!" />
+	</target>
+
+	<target name="test-spiderDSStore" description="tests DSStore spider">
+		<built-test-addon name="spiderDSStore" />
+	</target>
+
+	<!-- end customisation -->
+
 	<macrodef name="build-deploy-addon-without-help-indexes" description="build and deploy the specified addon">
 		<attribute name="name"/>
 		<sequential>

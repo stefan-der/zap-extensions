@@ -15,7 +15,7 @@
 	<helpset/>
 	<!--<helpset localetoken="%LC%">com.dsstore.help%LC%.helpset</helpset>-->  <!-- Optional, declares a helpset to be automatically added/removed by core. The locale token is used to indicate where in the base name the locale might be present. -->
 	<extensions>				<!-- Optional, to be used if this addon includes extensions -->
-		<extension/>			<!-- Full class name of the extension - can be multiple of these -->
+		<extension>org.zaproxy.zap.extension.spiderDSStore.ExtensionDSStoreSpider</extension>			<!-- Full class name of the extension - can be multiple of these -->
 	</extensions>
 	<ascanrules>				<!-- Optional, to be used if this addon includes active scan rules -->
 		<ascanrule/>			<!-- Full class name of the active scan rule - can be multiple of these -->
