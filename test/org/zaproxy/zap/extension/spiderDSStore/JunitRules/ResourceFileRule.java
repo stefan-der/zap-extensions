@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.spiderDSStore;
+package org.zaproxy.zap.extension.spiderDSStore.JunitRules;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.rules.ExternalResource;

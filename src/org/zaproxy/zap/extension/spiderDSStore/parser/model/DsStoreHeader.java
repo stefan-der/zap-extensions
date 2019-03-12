@@ -5,7 +5,9 @@ import java.nio.ByteBuffer;
 import java.nio.file.FileSystemException;
 import java.util.Arrays;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.zaproxy.zap.extension.spiderDSStore.ByteUtils;
 
 public class DsStoreHeader {
 
@@ -68,52 +70,39 @@ public class DsStoreHeader {
         }
     }
 
-    public boolean checkHeaderIntegrity(){
+    public static boolean validateHeader(Byte[] byteHeader) {
         boolean isValid = true;
 
-        int magic1Encoded = this.convertByteArrayToInt(this.magic1);
-        String magic2Encoded = this.convertByteArrayToString(this.magic2);
-        // magic1 has to be 00 00 00 01 -> 1
-        // magic2 has to be 42 75 64 31 -> Bud1
-        if(magic2Encoded != "Bud1" || magic1Encoded != 1){
-            isValid = false;
-            logger.info("Buddy is not valid");
-            logger.info("Magic1 which has to be 1 was " + magic1Encoded);
-            logger.info("Magic2 which has to be Bud1 was " + magic2Encoded);
-        }
+        // Header has to be exact 36 Byte Long
+        if(byteHeader != null || byteHeader.length != 36) {
 
-        // Offset1 has to be Equal to Offset2
-        if(this.offset1 != this.offset2){
+
+            Byte[] initialisation = (Byte[]) ArrayUtils.subarray(byteHeader, 0, 3);
+            Byte[] buddyAllocation = (Byte[]) ArrayUtils.subarray(byteHeader, 4, 7);
+            Byte[] offset1 = (Byte[]) ArrayUtils.subarray(byteHeader, 8, 11);
+            Byte[] rootBlockSize = (Byte[]) ArrayUtils.subarray(byteHeader, 12, 15);
+            Byte[] offset2 = (Byte[]) ArrayUtils.subarray(byteHeader, 16, 19);
+
+
+            int  initialisationAsInt = ByteUtils.convertByteArrayToInt(initialisation);
+            String buddyAllocationAsString = ByteUtils.convertByteArrayToString(buddyAllocation);
+            // magic1 has to be 00 00 00 01 -> 1
+            // magic2 has to be 42 75 64 31 -> Bud1
+            if (buddyAllocationAsString != "Bud1" || initialisationAsInt != 1) {
+                isValid = false;
+            }
+
+            int offset1AsInteger=ByteUtils.convertByteArrayToInt(offset1);
+            int offset2AsInteger=ByteUtils.convertByteArrayToInt(offset2);
+
+            // Offset1 has to be Equal to Offset2
+            if (offset1AsInteger != offset2AsInteger) {
+                isValid = false;
+            }
+        }else {
             isValid = false;
-            logger.info("Buddy is not valid");
-            logger.info("Offset1 differs from Offset2");
-            logger.info("Offset1 " + this.offset1);
-            logger.info("Offset2 " + this.offset2);
         }
 
         return isValid;
     }
-
-    public String convertByteArrayToString(byte[] hexInput){
-        String output=null;
-        if (hexInput != null  || hexInput.length>0 ){
-            output = new String(hexInput);
-        }else{
-            // Todo: Logging
-        }
-        return output;
-    }
-
-    public int convertByteArrayToInt(byte[] hexInput) {
-        int output = -1;
-
-        if (hexInput.length==4){
-            // Type is Big Endian
-            ByteBuffer byteBuffer = ByteBuffer.wrap(hexInput);
-            output = byteBuffer.getInt();
-        }
-
-        return output;
-    }
-
 }
