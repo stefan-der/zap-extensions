@@ -22,7 +22,7 @@ public class DsStoreHeader {
     private byte[] offset1;
 
     // Root Block Size where the TOC is located
-    //
+    // 00 00 08 00
     private byte[] rootBlockSize;           // 4 byte (12 Byte Offset)
 
     // Should be the same Value as offset 1
@@ -107,7 +107,6 @@ public class DsStoreHeader {
     public int convertByteArrayToInt(byte[] hexInput) {
         int output = -1;
 
-
         if (hexInput.length==4){
             // Type is Big Endian
             ByteBuffer byteBuffer = ByteBuffer.wrap(hexInput);
@@ -116,8 +115,5 @@ public class DsStoreHeader {
 
         return output;
     }
-
-
-
 
 }

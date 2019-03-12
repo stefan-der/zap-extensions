@@ -9,7 +9,7 @@
 	<changes/>					<!-- Optional, text summary of changes since the last version -->
 	<dependencies>					<!-- Optional, dependencies of the add-on -->
 		<javaversion></javaversion> <!-- Optional, minimum Java version (major.min) (e.g. "1.7", "1.8", "1.9") -->
-		<addons/>
+		<addons/> <!-- TODO: commons.io hinzufügen -->
 	</dependencies>
 	<!--<bundle prefix="example">com.dsstore.Messages</bundle>--> <!-- Optional, declares a resource bundle to be automatically added/removed by core. The prefix attribute is used to add the bundle to Constant.messages. -->
 	<helpset/>
@@ -28,4 +28,5 @@
 	</files>
 	<not-before-version>2.7.0</not-before-version>		<!-- Optional, to be used if this addon can only be run from the specified version e.g. 2.1.0 -->
 	<not-from-version/>			<!-- Optional, to be used if this addon can not run from the specified version e.g. 2.4.0 -->
+	<author>stefan-der</author>
 </zapaddon>

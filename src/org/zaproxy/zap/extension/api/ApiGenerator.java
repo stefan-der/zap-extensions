@@ -37,7 +37,6 @@ import org.zaproxy.zap.extension.selenium.SeleniumAPI;
 import org.zaproxy.zap.extension.selenium.SeleniumOptions;
 import org.zaproxy.zap.extension.spiderAjax.AjaxSpiderAPI;
 import org.zaproxy.zap.extension.spiderAjax.AjaxSpiderParam;
-import org.zaproxy.zap.extension.websocket.WebSocketAPI;
 
 public class ApiGenerator {
 
@@ -69,7 +68,7 @@ public class ApiGenerator {
 
 		list.add(new RevealAPI(null));
 		list.add(new SeleniumAPI(new SeleniumOptions()));
-		list.add(new WebSocketAPI(null));
+
 
 		return list;
 	}
