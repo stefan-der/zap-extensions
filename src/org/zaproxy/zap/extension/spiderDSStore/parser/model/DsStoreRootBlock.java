@@ -2,7 +2,7 @@ package org.zaproxy.zap.extension.spiderDSStore.parser.model;
 
 import org.zaproxy.zap.extension.spiderDSStore.parser.Allocator;
 
-public class Block{
+public class DsStoreRootBlock {
 
     private Allocator allocator;
     private long offset;
@@ -11,7 +11,7 @@ public class Block{
     private long position;
     private boolean dirty = false;
 
-    public  Block(Allocator allocator, long offset, long size) throws Exception{
+    public DsStoreRootBlock(Allocator allocator, long offset, long size) throws Exception{
         this.allocator=allocator;
         this.offset=offset;
         this.size=size;

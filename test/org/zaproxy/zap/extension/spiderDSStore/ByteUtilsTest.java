@@ -1,8 +1,6 @@
 package org.zaproxy.zap.extension.spiderDSStore;
 
 
-import groovy.grape.GrapeIvy;
-import net.bytebuddy.NamingStrategy;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,14 +13,14 @@ public class ByteUtilsTest {
 
     @Test
     public void ByteObjectToPrimititiveType_WithNullValue_Unittest(){
-        Assert.assertNull(ByteUtils.convertByteObjectArrayToPrimitiveByteArray((Byte[]) null));
+        Assert.assertNull(ByteUtils.convertObjectByteArrayToPrimitiveByteArray((Byte[]) null));
     }
 
     @Test
     public void ByteObjectToPrimititiveType_WithSomeNullElements_Unittest(){
         // Given
         // When
-        byte[] primitiveObjectArrayFromFunction = ByteUtils.convertByteObjectArrayToPrimitiveByteArray(this.validObjectDataSourceWithNullValues);
+        byte[] primitiveObjectArrayFromFunction = ByteUtils.convertObjectByteArrayToPrimitiveByteArray(this.validObjectDataSourceWithNullValues);
         // Then
         Assert.assertArrayEquals(this.validPrimitiveDataSourceWithNullValues, primitiveObjectArrayFromFunction);
     }
@@ -32,17 +30,29 @@ public class ByteUtilsTest {
         // Given
         Byte testByte = 0x21;
         Byte[] byteObjectArray = {testByte};
-        byte[] primitiveObjectArray = {testByte};
+        byte[] primitiveByteArray = {testByte};
         // When
-        byte[] primitiveObjectArrayFromFunction = ByteUtils.convertByteObjectArrayToPrimitiveByteArray(byteObjectArray);
+        byte[] primitiveObjectArrayFromFunction = ByteUtils.convertObjectByteArrayToPrimitiveByteArray(byteObjectArray);
         // Then
-        Assert.assertArrayEquals(primitiveObjectArray, primitiveObjectArrayFromFunction);
+        Assert.assertArrayEquals(primitiveByteArray, primitiveObjectArrayFromFunction);
     }
 
 
     @Test
+    public void PrimitveTypeToByteObject_WithOneElement_Unittest(){
+        // Given
+        Byte testByte = 0x21;
+        Byte[] byteObjectArray = {testByte};
+        byte[] primitiveByteArray = {testByte};
+        // When
+        Byte[] byteObjectArrayFromFunction = ByteUtils.convertPrimitveByteArrayToObjectByteArray(primitiveByteArray);
+        // Then
+        Assert.assertArrayEquals(byteObjectArray, byteObjectArrayFromFunction);
+    }
+
+    @Test
     public void MergeByteArrays_WithNullValue_Unittest(){
-        Assert.assertNull(ByteUtils.mergeByteArrays(null, null));
+        Assert.assertArrayEquals(new Byte[0], ByteUtils.mergeByteArrays(null, null));
     }
 
     @Test
