@@ -12,7 +12,6 @@ public class DsStoreHeader {
 
     static String INVALID_HEADER_MESSAGE="The .DS_Store Header is not valid.";
 
-
     // Default Header in every .DS_Store File
     // 00 00 00 01                  -> 4 Byte
     private Byte[] initialisation;
@@ -90,7 +89,6 @@ public class DsStoreHeader {
         // Header has to be exact 36 Byte Long
         if(byteHeader != null && byteHeader.length == 36 && !Arrays.asList(byteHeader).contains(null)) {
 
-
             Byte[] initialisation = (Byte[]) ArrayUtils.subarray(byteHeader, 0, 4);
             Byte[] buddyAllocation = (Byte[]) ArrayUtils.subarray(byteHeader, 4, 8);
             Byte[] offset1 = (Byte[]) ArrayUtils.subarray(byteHeader, 8, 12);
@@ -126,5 +124,16 @@ public class DsStoreHeader {
         }
 
         return isValid;
+    }
+
+    public int getRootBlockSize(){
+        return ByteUtils.convertByteArrayToInt(this.rootBlockSize);
+    }
+    public int getRootBlockOffset(){
+        return ByteUtils.convertByteArrayToInt(this.offset1);
+    }
+    public boolean validateHeader(){
+        Byte[] fullHeader = ByteUtils.mergeByteArrays(this.initialisation, this.buddyAllocation, this.offset1, this.rootBlockSize, this.offset2, this.unknown1);
+        return DsStoreHeader.validateHeader(fullHeader);
     }
 }

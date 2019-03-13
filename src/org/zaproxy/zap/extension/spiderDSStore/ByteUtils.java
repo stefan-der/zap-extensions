@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 
 public class ByteUtils {
 
-
     public static Byte[] mergeByteArrays(Byte[] ... allByteArrays) throws IllegalArgumentException{
         Byte[] output = null;
         int size=0;
