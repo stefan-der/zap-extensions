@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.spiderDSStore;
+package org.zaproxy.zap.extension.spiderDSStore.parser;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,7 +15,7 @@ import javax.naming.OperationNotSupportedException;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DsStoreRootBlockUnitTest {
+public class DsStoreRootBlockUnitTests {
 
     @Mock
     DsStoreHeader mockDsStoreHeader = mock(DsStoreHeader.class);

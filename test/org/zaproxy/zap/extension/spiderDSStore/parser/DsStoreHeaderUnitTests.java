@@ -1,16 +1,17 @@
-package org.zaproxy.zap.extension.spiderDSStore;
+package org.zaproxy.zap.extension.spiderDSStore.parser;
 
 import org.apache.log4j.Logger;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.zaproxy.zap.extension.spiderDSStore.ByteUtils;
 import org.zaproxy.zap.extension.spiderDSStore.parser.model.DsStoreHeader;
 
 import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DsStoreHeaderUnitTest {
+public class DsStoreHeaderUnitTests {
 
     //@Rule
     //public ResourceFileRule validDSStoreFile = new ResourceFileRule("DS_Store");
@@ -34,7 +35,7 @@ public class DsStoreHeaderUnitTest {
     // Offset for InvalidOffsetTest
     final Byte[] invalidResourceHeaderOffset = {0x00, 0x00, 0x04, 0x00};
 
-    Logger logger = Logger.getLogger(DsStoreHeaderUnitTest.class);
+    Logger logger = Logger.getLogger(DsStoreHeaderUnitTests.class);
 
     @Test
     public void vaidateHeaderWithCorrectHeader_Unittest(){
@@ -96,4 +97,6 @@ public class DsStoreHeaderUnitTest {
         // then
         Assert.assertEquals(this.rootBlockSizeOfFullResourceHeader, rootBlockFromFunction);
     }
+
+
 }

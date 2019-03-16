@@ -103,6 +103,11 @@ public class ByteUtilsTest {
     @Test
     public void MergeByteArrays_WithLongInitializedArraySizes_Unittest(){Assert.fail();}
 
+    @Test
+    public void GetByteArrayFromInputStream_Unittest(){
+        Assert.fail();
+    }
+
 
 
 
