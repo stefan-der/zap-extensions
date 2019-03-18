@@ -4,12 +4,12 @@ import java.nio.ByteBuffer;
 
 public class ByteUtils {
 
-    public static Byte[] mergeByteArrays(Byte[] ... allByteArrays) throws IllegalArgumentException{
-        Byte[] output = null;
+    public static Short[] mergeByteArrays(Short[] ... allByteArrays) throws IllegalArgumentException{
+        Short[] output = null;
         int size=0;
 
         // size calculation
-        for (Byte[] currentByteArray : allByteArrays){
+        for (Short[] currentByteArray : allByteArrays){
             if(currentByteArray == null){
                 // Skipping null Array
                 continue;
@@ -24,13 +24,13 @@ public class ByteUtils {
         }
 
         // concatinating
-        output = new Byte[size];
+        output = new Short[size];
         int i=0;
-        for (Byte[] currentByteArray : allByteArrays) {
+        for (Short[] currentByteArray : allByteArrays) {
             if (currentByteArray == null) {
                 continue;
             }else{
-                for (Byte currentByte : currentByteArray) {
+                for (Short currentByte : currentByteArray) {
                     if(currentByte == null){
                         output[i] = 0x00;
                     }else {
@@ -51,7 +51,7 @@ public class ByteUtils {
         }
         return output;
     }
-    public static int convertByteArrayToInt(Byte[] hexInput) {
+    public static long convertByteArrayToInt(Byte[] hexInput) {
         // Type is Big Endian
         int output = -1;
 
@@ -86,7 +86,8 @@ public class ByteUtils {
             byteObjectArray = new Byte[primitiveByteArray.length];
 
             int i = 0;
-            for (Byte currentByte : primitiveByteArray){
+            for (byte currentByte : primitiveByteArray){
+
                 byteObjectArray[i] = currentByte;
                 i++;
             }

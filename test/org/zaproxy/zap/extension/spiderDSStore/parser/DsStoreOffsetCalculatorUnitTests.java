@@ -3,6 +3,8 @@ package org.zaproxy.zap.extension.spiderDSStore.parser;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.fail;
+
 public class DsStoreOffsetCalculatorUnitTests {
 
     int correctIntRootBlockStartOffset = 8192;
@@ -93,8 +95,8 @@ public class DsStoreOffsetCalculatorUnitTests {
     public void calculateRootBlockBoundries_withInvalidSize_Unittests(){
         // given
         int offsetInput = this.correctIntRootBlockStartOffset;
-
         // when
+        Assert.fail();
         // then
     }
 
