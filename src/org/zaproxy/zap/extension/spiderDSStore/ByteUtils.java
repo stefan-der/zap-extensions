@@ -51,11 +51,11 @@ public class ByteUtils {
         }
         return output;
     }
-    public static long convertByteArrayToInt(Byte[] hexInput) {
+    public static long convertShortArrayToLong(Short[] input) {
         // Type is Big Endian
         int output = -1;
 
-        byte[] hexArrayAsPrimitiveType = convertObjectByteArrayToPrimitiveByteArray(hexInput);
+        byte[] hexArrayAsPrimitiveType = convertObjectByteArrayToPrimitiveByteArray(input);
 
         if (hexInput.length==4){
             ByteBuffer byteBuffer = ByteBuffer.wrap(hexArrayAsPrimitiveType);
@@ -94,6 +94,18 @@ public class ByteUtils {
         }
 
         return byteObjectArray;
+    }
+
+
+    public static short[] convertPrimitveByteArrayToShortArray(byte[] byteArray){
+        short[] output = null;
+        if(byteArray != null){
+            for(int i =0; i<byteArray.length; i++){
+                output[i] = Short.valueOf(byteArray[i]);
+            }
+        }
+
+        return output;
     }
 
 }

@@ -12,7 +12,9 @@ import org.zaproxy.zap.extension.spiderDSStore.ByteUtils;
 
 public class DsStoreHeader {
 
-    static String INVALID_HEADER_MESSAGE="The .DS_Store Header is not valid.";
+    static String INVALID_HEADER_MESSAGE="The .DS_Store Header is not valid\r\n Error: %s";
+    static String FILE_ERROR_MESSAGE="The file is not valid: %s";
+
 
     // Default Header in every .DS_Store File
     // 00 00 00 01                  -> 4 Byte
@@ -57,36 +59,50 @@ public class DsStoreHeader {
                     throw new FileSystemException(e.getMessage());
                 }
 
-                ByteBuffer byteBuffer = ByteBuffer.wrap(fileAsByteArray);
-
-
-                // Todo: Abort criteria for Empty File
-                this.initialisation = ByteUtils.convertPrimitveByteArrayToObjectByteArray(Arrays.copyOfRange(fileAsByteArray,4, 7));
-                this.buddyAllocation= ByteUtils.convertPrimitveByteArrayToObjectByteArray(Arrays.copyOfRange(fileAsByteArray,4, 7));
-                this.offset1 = ByteUtils.convertPrimitveByteArrayToObjectByteArray(Arrays.copyOfRange(fileAsByteArray, 8, 11));
-                this.rootBlockSize = ByteUtils.convertPrimitveByteArrayToObjectByteArray(Arrays.copyOfRange(fileAsByteArray, 12, 15));
-                this.offset2 = ByteUtils.convertPrimitveByteArrayToObjectByteArray(Arrays.copyOfRange(fileAsByteArray, 16, 19));
-                this.unknown1 = ByteUtils.convertPrimitveByteArrayToObjectByteArray(Arrays.copyOfRange(fileAsByteArray, 20 ,36));
+                byte[] byteHeader=null;
+                ByteBuffer byteBuffer = ByteBuffer.wrap(byteHeader);
+                byteBuffer.get(byteHeader,0,36);
+                this.initializeObject(byteHeader);
 
             } else {
-                throw new FileNotFoundException("File not found Path: " + dsStoreFile.getAbsolutePath());
+                throw new FileNotFoundException(String.format(FILE_ERROR_MESSAGE,"File not found Path: " + dsStoreFile.getAbsolutePath()));
             }
         }else {
-            throw new FileNotFoundException("File should not be Null");
+            throw new FileNotFoundException(String.format(FILE_ERROR_MESSAGE,"File should not be Null"));
         }
     }
 
-    public DsStoreHeader(Short[] byteHeader) throws IllegalArgumentException{
-        if(validateHeader(byteHeader)){
-            this.initialisation = (Short[]) ArrayUtils.subarray(byteHeader, 0, 4);
-            this.buddyAllocation = (Short[]) ArrayUtils.subarray(byteHeader, 4, 8);
-            this.offset1 = (Short[]) ArrayUtils.subarray(byteHeader, 8, 12);
-            this.rootBlockSize = (Short[]) ArrayUtils.subarray(byteHeader, 12, 16);
-            this.offset2 = (Short[]) ArrayUtils.subarray(byteHeader, 16, 20);
-            this.unknown1 = (Short[]) ArrayUtils.subarray(byteHeader, 20, 36);
-        }else{
-            throw new IllegalArgumentException(INVALID_HEADER_MESSAGE);
+    private void initializeObject(byte[] byteHeader){
+        if(byteHeader != null) {
+            if(validateHeader(byteHeader)) {
+                ByteBuffer byteBuffer = ByteBuffer.wrap(byteHeader);
+
+                byte[] initialisation = null;
+                byte[] buddyAllocation = null;
+                byte[] offset1 = null;
+                byte[] rootBlockSize = null;
+                byte[] offset2 = null;
+                byte[] unknown = null;
+
+                byteBuffer.get(initialisation, 0, 4);
+                byteBuffer.get(buddyAllocation, 4, 4);
+                byteBuffer.get(offset1, 8, 4);
+                byteBuffer.get(rootBlockSize, 12, 4);
+                byteBuffer.get(offset2, 16, 4);
+                byteBuffer.get(unknown, 20, 16);
+
+
+            }else {
+                throw new IllegalArgumentException(String.format(INVALID_HEADER_MESSAGE,"Object length is invalid"));
+            }
+        }else {
+            throw new IllegalArgumentException(String.format(INVALID_HEADER_MESSAGE,"Object is null"));
         }
+    }
+
+
+    public DsStoreHeader(byte[] byteHeader) throws IllegalArgumentException{
+        this.initializeObject(byteHeader);
     }
 
     public static boolean validateHeader(Short[] byteHeader) {
@@ -102,7 +118,7 @@ public class DsStoreHeader {
             Short[] offset2 = (Short[]) ArrayUtils.subarray(byteHeader, 16, 20);
 
 
-            int  initialisationAsInt = ByteUtils.convertByteArrayToInt(initialisation);
+            int  initialisationAsInt = ByteUtils.convertShortArrayToLong(initialisation);
             String buddyAllocationAsString = ByteUtils.convertByteArrayToString(buddyAllocation);
 
             // magic1 has to be 00 00 00 01 -> 1
@@ -116,8 +132,8 @@ public class DsStoreHeader {
             if(offset1 == null || offset2 == null){
                 isValid = false;
             }else {
-                int offset1AsInteger = ByteUtils.convertByteArrayToInt(offset1);
-                int offset2AsInteger = ByteUtils.convertByteArrayToInt(offset2);
+                int offset1AsInteger = ByteUtils.convertShortArrayToLong(offset1);
+                int offset2AsInteger = ByteUtils.convertShortArrayToLong(offset2);
 
                 // Offset1 has to be Equal to Offset2
                 if (offset1AsInteger != offset2AsInteger) {
@@ -132,11 +148,11 @@ public class DsStoreHeader {
         return isValid;
     }
 
-    public int getRootBlockSize(){
-        return ByteUtils.convertByteArrayToInt(this.rootBlockSize);
+    public long getRootBlockSize(){
+        return ByteUtils.convertShortArrayToLong(this.rootBlockSize);
     }
-    public int getRootBlockOffset(){
-        return ByteUtils.convertByteArrayToInt(this.offset1);
+    public long getRootBlockOffset(){
+        return ByteUtils.convertShortArrayToLong(this.offset1);
     }
     public boolean validateHeader(){
         Short[] fullHeader = ByteUtils.mergeByteArrays(this.initialisation, this.buddyAllocation, this.offset1, this.rootBlockSize, this.offset2, this.unknown1);

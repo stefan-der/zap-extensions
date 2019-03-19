@@ -3,8 +3,6 @@ package org.zaproxy.zap.extension.spiderDSStore.parser;
 import org.apache.commons.lang.ArrayUtils;
 import org.zaproxy.zap.extension.spiderDSStore.ByteUtils;
 
-import javax.naming.OperationNotSupportedException;
-
 public class DsStoreOffsetCalculator {
 
     public static final int REDUCTION_FOR_DSSTORE_OFFSET = 4;
@@ -25,7 +23,7 @@ public class DsStoreOffsetCalculator {
         int output = -1;
         if(originalOffset != null && !ArrayUtils.contains(originalOffset,null)){
             if(originalOffset.length == 4){
-                int originalOffsetAsInteger = ByteUtils.convertByteArrayToInt(originalOffset);
+                int originalOffsetAsInteger = ByteUtils.convertShortArrayToLong(originalOffset);
                 output = calculateOffset(originalOffsetAsInteger);
             }else{
                 throw new IllegalArgumentException(ERRORMESSAGE_INPUT_HAS_NOT_THE_EXPECTED_SIZE);
