@@ -69,16 +69,6 @@ public class ResourceFileRule extends ExternalResource {
             return b.toString();
         }
 
-        public byte[] getContentAsByteArray() throws IOException{
-            byte[] output = null;
-
-            InputStream is = createInputStream();
-            output = IOUtils.toByteArray(is);
-
-            return output;
-        }
-
-
         @Override
         protected void before() throws Throwable
         {

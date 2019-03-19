@@ -5,98 +5,145 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.zaproxy.zap.extension.spiderDSStore.ByteUtils;
+import org.zaproxy.zap.extension.spiderDSStore.JunitRules.ResourceFileRule;
 import org.zaproxy.zap.extension.spiderDSStore.parser.model.DsStoreHeader;
 
+import java.io.*;
+import java.nio.ByteBuffer;
+
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DsStoreHeaderUnitTests {
 
-    //@Rule
-    //public ResourceFileRule validDSStoreFile = new ResourceFileRule("DS_Store");
+    @Rule
+    public ResourceFileRule inValidDSStoreFile = new ResourceFileRule("DS_Store_with_wrongOffset");
+
+    @Rule
+    public ResourceFileRule validDSStoreFile = new ResourceFileRule("DS_Store");
 
     @Mock
-    DsStoreHeader mockedDsStoreHeader = mock(DsStoreHeader.class);
+    DsStoreHeader mockedDsStoreHeader =null;
 
-    // Valid Byte Streams
-    final Short[] resourceHeaderInitialisation = {0x00,0x00,0x00,0x01};
-    final Short[] resourceHeaderMagicByteSequence1 = {0x42,0x75,0x64,0x31};
-    final Short[] resourceHeaderOffset = {0x00, 0x00, 0x02, 0x00};
-    final Short[] rootBlockSize = {0x00, 0x00, 0x08, 0x00};
-    final Short[] resourceHeaderUnknownBlocks ={0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5};
+    @Before
+    public void before(){
+        this.mockedDsStoreHeader= mock(DsStoreHeader.class);
+    }
 
-    // Full Valid Stream              | Init              | Bud1              | RootBlock Offset  | Root Block size   | Offset            | unknown Blocks                |
-    final Short[] fullResourceHeader = {0x00,0x00,0x00,0x01,0x42,0x75,0x64,0x31,0x00,0x00,0x02,0x00,0x00,0x00,0x08,0x00,0x00,0x00,0x02,0x00,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5};
-    final int offsetSizeOfFullResourceHeader = 0x0200;
-    final int rootBlockSizeOfFullResourceHeader = 0x0800;
+    // Valid Byte
+    final byte[] resourceHeaderOffset = {0x00, 0x00, 0x20, 0x00};
+    final long expectedResourceHeaderOffset = 0x2000 + 4;
+
+    final byte[] rootBlockSize = {0x00, 0x00, 0x08, 0x00};
+    final long expectedRootBlockSize = 0x0800;
+
+    final long[] expectedBoundries = new long[]{expectedResourceHeaderOffset,expectedResourceHeaderOffset+expectedRootBlockSize};
+
+    // Full Valid Stream                   | Init              | Bud1              | RootBlock Offset  | Root Block size   | Offset            | unknown Blocks                |
+    final byte[] fullValidResourceHeader = {0x00,0x00,0x00,0x01,0x42,0x75,0x64,0x31,0x00,0x00,0x02,0x00,0x00,0x00,0x08,0x00,0x00,0x00,0x02,0x00,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5};
 
 
-    // Offset for InvalidOffsetTest
-    final Short[] invalidResourceHeaderOffset = {0x00, 0x00, 0x04, 0x00};
+    // destructiveValues                                                                             |0xFF,0xFF,0xFF,0xFF|                   |0xFF,0xFF,0xFF,0xFF|
+    final byte[] fullInvalidResourceHeaderWithMaxedOffsets = {0x00,0x00,0x00,0x01,0x42,0x75,0x64,0x31,  -1,  -1,  -1,  -1,0x00,0x00,0x08,0x00,  -1,  -1,  -1,  -1,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5};
+
+
 
     Logger logger = Logger.getLogger(DsStoreHeaderUnitTests.class);
 
     @Test
-    public void vaidateHeaderWithCorrectHeader_Unittest(){
+    public void initialiseDsStoreHeader_withCorrectByteArrayAsInputStream_Unittest() throws IOException {
         // given
-        Short[] fullvalidHeader=null;
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.fullValidResourceHeader);
         // when
-        try{
-            fullvalidHeader = ByteUtils.mergeByteArrays(resourceHeaderInitialisation,resourceHeaderMagicByteSequence1, resourceHeaderOffset, rootBlockSize, resourceHeaderOffset, resourceHeaderUnknownBlocks);
-        }catch (Exception e){
-            Assert.fail(e.getMessage());
-        }
-
+        DsStoreHeader dsStoreHeader = new DsStoreHeader(byteArrayInputStream);
         // then
-        Assert.assertTrue(DsStoreHeader.validateHeader(fullvalidHeader));
+        Assert.assertNotNull(dsStoreHeader);
     }
 
     @Test
-    public void validateHeaderWithInvalidOffset_Unittest(){
+    public void initialiseDsStoreHeader_witchCorrectFileAsInputStream_Unittest() throws IOException{
         // given
-        Short[] fullInvalidHeader=null;
+        InputStream inputStream = validDSStoreFile.createInputStream();
         // when
-        try{
-            fullInvalidHeader = ByteUtils.mergeByteArrays(resourceHeaderInitialisation,resourceHeaderMagicByteSequence1, null, rootBlockSize, null, resourceHeaderUnknownBlocks);
-        }catch (Exception e){
-            Assert.fail(e.getMessage());
-        }
-
+        DsStoreHeader dsStoreHeader = new DsStoreHeader(inputStream);
         // then
-        Assert.assertFalse(DsStoreHeader.validateHeader(fullInvalidHeader));
+        Assert.assertNotNull(dsStoreHeader);
+    }
+
+
+    @Test
+    public void validateHeaderWithCorrectHeader_Unittest(){
+        // given
+        byte[] validByteHeader = fullValidResourceHeader;
+        // when
+        boolean validationFromFunction = DsStoreHeader.validateDsStoreHeader(validByteHeader);
+        // then
+        Assert.assertTrue(validationFromFunction);
     }
 
     @Test
-    public void validateHeaderWithNullRootBlock_Unittest(){
+    public void validateHeader_WithInvalidOffset1_Unittest(){
         // given
-        Short[] fullResourceHeader=this.fullResourceHeader;
-        fullResourceHeader[(int) Math.floor(fullResourceHeader.length/2)]=null;
-        fullResourceHeader[(int) Math.floor(fullResourceHeader.length/3)]=null;
+        byte[] inValidByteHeader = fullValidResourceHeader;
+        inValidByteHeader[9]=0x20;
         // when
+        boolean validationFromFunction = DsStoreHeader.validateDsStoreHeader(inValidByteHeader);
         // then
-        Assert.assertFalse(DsStoreHeader.validateHeader(fullResourceHeader));
+        Assert.assertFalse(validationFromFunction);
     }
 
     @Test
-    public void getRootBlockOffset(){
+    public void validateHeader_WithInvalidOffset2_Unittest(){
         // given
-        DsStoreHeader dsStoreHeader = new DsStoreHeader(this.fullResourceHeader);
+        byte[] inValidByteHeader = fullValidResourceHeader;
+        inValidByteHeader[18]=0x20;
         // when
-        int offsetFromFunction = dsStoreHeader.getRootBlockOffset();
+        boolean validationFromFunction = DsStoreHeader.validateDsStoreHeader(inValidByteHeader);
         // then
-        Assert.assertEquals(this.offsetSizeOfFullResourceHeader,offsetFromFunction);
+        Assert.assertFalse(validationFromFunction);
     }
 
     @Test
-    public void getRootBlockSize(){
+    public void getRootBlockOffset_Unittest() throws IOException{
         // given
-        DsStoreHeader dsStoreHeader = new DsStoreHeader(this.fullResourceHeader);
+        when(mockedDsStoreHeader.getOffset1()).thenReturn(this.resourceHeaderOffset);
+        when(mockedDsStoreHeader.getOffset2()).thenReturn(this.resourceHeaderOffset);
+        when(mockedDsStoreHeader.getRootBlockOffset()).thenCallRealMethod();
         // when
-        int rootBlockFromFunction = dsStoreHeader.getRootBlockSize();
+        long rootBlockOffsetFromFunction = mockedDsStoreHeader.getRootBlockOffset();
         // then
-        Assert.assertEquals(this.rootBlockSizeOfFullResourceHeader, rootBlockFromFunction);
+        Assert.assertEquals(expectedResourceHeaderOffset, rootBlockOffsetFromFunction);
     }
 
+    @Test
+    public void getRootBlockSizeBoundries_withValidOffsetAndValidHeader_Unittest(){
+
+        // given
+        when(mockedDsStoreHeader.getOffset1()).thenReturn(this.resourceHeaderOffset);
+        when(mockedDsStoreHeader.getOffset2()).thenReturn(this.resourceHeaderOffset);
+        when(mockedDsStoreHeader.getRootBlockOffset()).thenReturn(this.expectedResourceHeaderOffset);
+        when(mockedDsStoreHeader.getRootBlockSize()).thenReturn(this.rootBlockSize);
+        when(mockedDsStoreHeader.getRootBlockSizeAsInteger()).thenReturn(this.expectedRootBlockSize);
+        when(mockedDsStoreHeader.getRootBlockBoundries()).thenCallRealMethod();
+
+        // when
+        long[] rootBlockBoundriesFromFunction = mockedDsStoreHeader.getRootBlockBoundries();
+
+        // then
+        Assert.assertArrayEquals(expectedBoundries,rootBlockBoundriesFromFunction);
+
+    }
+
+    @Test
+    public void getRootBlockSizeBoundries_WithMaximumOffsetBlockSize_Unittest() throws IOException{
+        // given
+        InputStream inputStream = new ByteArrayInputStream(this.fullInvalidResourceHeaderWithMaxedOffsets);
+        DsStoreHeader dsStoreHeader = new DsStoreHeader(inputStream);
+        // when
+        Long a = dsStoreHeader.getRootBlockOffset();
+        // then
+
+    }
 
 }
