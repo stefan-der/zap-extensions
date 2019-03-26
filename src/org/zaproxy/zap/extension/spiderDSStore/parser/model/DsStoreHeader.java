@@ -6,6 +6,8 @@ import org.hsqldb.persist.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidArgumentException;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -45,34 +47,13 @@ public class DsStoreHeader {
 
     protected Logger logger = Logger.getLogger(DsStoreHeader.class);
 
-    public DsStoreHeader(InputStream inputStream) throws IOException{
-        byte[] byteHeader;
-
-        // Read Inputstream
-        if(inputStream == null){
-            throw new InvalidArgumentException(String.format(INVALID_INPUTSTREAM_ERROR_MESSAGE,"Inputstream is null"));
-        }else{
-            try {
-                byteHeader = inputStream.readNBytes(36);
-            }catch (Exception e){
-                throw new IOException(ERROR_WHILE_READING_INPUTSTREAM_MESSAGE,e);
-            }
-            // validate Inputstream
-
-            if(!this.validateDsStoreHeader(byteHeader)){
-                throw new InvalidArgumentException(String.format(INVALID_INPUTSTREAM_ERROR_MESSAGE, "Header of Inputstream is not valid"));
-            }
-
-            // set values
-            Object[] allArrays=getArrayBlocks(byteHeader);
-            this.initialisation = (byte[]) allArrays[0];
-            this.buddyAllocation = (byte[]) allArrays[1];
-            this.offset1 = (byte[]) allArrays[2];
-            this.rootBlockSize = (byte[]) allArrays[3];
-            this.offset2 = (byte[]) allArrays[4];
-            this.unknown1= (byte[]) allArrays[5];
-
-        }
+    public DsStoreHeader(byte[] initialisation, byte[] buddyAllocation, byte[] offset1, byte[] rootBlockSize, byte[] offset2, byte[] unknown1) throws IOException{
+        this.initialisation=initialisation;
+        this.buddyAllocation=buddyAllocation;
+        this.offset1=offset1;
+        this.rootBlockSize=rootBlockSize;
+        this.offset2=offset2;
+        this.unknown1=unknown1;
     }
 
     public static Object[] getArrayBlocks(byte[] fullByteHeader){
@@ -230,4 +211,42 @@ public class DsStoreHeader {
 
         return output;
     }
+
+    public static DsStoreHeader getDsStoreHeaderFromInputStream(InputStream inputStream) throws IOException{
+
+        byte[] byteHeader;
+        DsStoreHeader dsStoreHeader = null;
+
+
+        // Read Inputstream
+        if(inputStream == null){
+            throw new InvalidArgumentException(String.format(INVALID_INPUTSTREAM_ERROR_MESSAGE,"Inputstream is null"));
+        }else{
+            try {
+                // Start at the beginning of the Inputstream
+
+                if(inputStream.getClass() == BufferedInputStream.class){
+                    inputStream.mark(36);
+                }
+
+                inputStream.reset();
+
+                byteHeader = inputStream.readNBytes(36);
+            }catch (Exception e){
+                throw new IOException(ERROR_WHILE_READING_INPUTSTREAM_MESSAGE,e);
+            }
+            // validate Inputstream
+
+            if(!validateDsStoreHeader(byteHeader)){
+                throw new InvalidArgumentException(String.format(INVALID_INPUTSTREAM_ERROR_MESSAGE, "Header of Inputstream is not valid"));
+            }
+
+            // set values
+            Object[] allArrays=getArrayBlocks(byteHeader);
+
+            dsStoreHeader = new DsStoreHeader((byte[]) allArrays[0],(byte[]) allArrays[1],(byte[]) allArrays[2], (byte[]) allArrays[3],(byte[]) allArrays[4],(byte[]) allArrays[5]);
+        }
+        return dsStoreHeader;
+    }
+
 }

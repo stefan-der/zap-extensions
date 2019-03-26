@@ -1,5 +1,9 @@
 package org.zaproxy.zap.extension.spiderDSStore.parser.model;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+
 public class DsStoreRecord {
     /**
      * Record describes an Entry inside the balanced Tree of the DSStore File
@@ -57,9 +61,17 @@ public class DsStoreRecord {
         boolean output = true;
         // TODO: integrate
 
-
         return output;
     }
 
+
+    public LinkedList<DsStoreRecord> getDsStoreFrom(DsStoreRootBlock dsStoreRootBlock){
+        LinkedList<DsStoreRecord> dsStoreRecordLinkedList = new LinkedList<>();
+
+
+
+
+        return dsStoreRecordLinkedList;
+    }
 
 }

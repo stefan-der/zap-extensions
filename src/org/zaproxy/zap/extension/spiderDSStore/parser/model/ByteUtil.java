@@ -1,9 +1,22 @@
 package org.zaproxy.zap.extension.spiderDSStore.parser.model;
 
+import org.apache.commons.lang.ArrayUtils;
+
+import java.util.Arrays;
+
 public class ByteUtil {
 
     public static long parseByteArrayWithKomplementValuesToLong(byte[] byteArrayWithComplementValues){
         long output=0;
+
+        if(byteArrayWithComplementValues.length > 16){
+            throw new IllegalArgumentException();
+        }
+
+        if(Arrays.asList(byteArrayWithComplementValues).contains(null)){
+            throw new IllegalArgumentException();
+        }
+
 
         for(int i=0; i<byteArrayWithComplementValues.length; i++){
             int shiftTimes=(byteArrayWithComplementValues.length-1)-i;
